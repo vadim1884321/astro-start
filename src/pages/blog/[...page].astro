@@ -1,0 +1,28 @@
+---
+import type { PaginateFunction, Page } from 'astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SiteMetadata, PAGE_SIZE } from '@/config';
+import { formatBlogPosts } from '@/utils';
+import BlogRoll from '@/components/BlogRoll.astro';
+import Pagination from '@philnash/astro-pagination';
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+	const allPosts = await getCollection('blog');
+	const posts = formatBlogPosts(allPosts);
+	return paginate(posts, { pageSize: PAGE_SIZE });
+}
+
+interface Props {
+	page: Page<CollectionEntry<'blog'>>;
+}
+const { page } = Astro.props;
+---
+
+<BaseLayout title={SiteMetadata.logo_name + ' | ' + 'Все статьи'}>
+	<main class="container grid grid-cols-12 gap-5 px-4 pt-16">
+		<BlogRoll posts={page.data} />
+		<aside class="col-span-12 lg:col-span-4"></aside>
+		<Pagination page={page} urlPattern={'/blog/{}'} windowSize={2} />
+	</main>
+</BaseLayout>

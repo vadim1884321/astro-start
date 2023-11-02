@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import slugify from '@sindresorhus/slugify';
+
+export interface Props {
+	formattedPosts: CollectionEntry<'blog'>[];
+}
+
+const { formattedPosts } = Astro.props;
+const posts = formattedPosts
+	.filter((post) => post.data.categories!.map((category) => category.id).includes('electronics'))
+	.slice(0, 4);
+---
+
+<section class="bg-white dark:bg-gray-900">
+	<div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+		<div class="mx-auto mb-8 max-w-screen-sm text-center lg:mb-16">
+			<h2 class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+				Электроника
+			</h2>
+			<p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl lg:mb-16">
+				Новости современной электроники - гаджеты, ультрабуки, новые смартфоны и смарт часы, VR и
+				многое другое.
+			</p>
+		</div>
+		<div class="mb-6 grid gap-8 md:grid-cols-2 lg:mb-16">
+			{
+				posts.map((post) => (
+					<div class="items-center rounded-lg bg-gray-50 shadow dark:border-gray-700 dark:bg-gray-800 sm:flex">
+						<a
+							href={
+								import.meta.env.BASE_URL +
+								'blog/' +
+								post.data.categories.map((category) => category.id) +
+								'/' +
+								slugify(post.slug)
+							}
+						>
+							{post.data.coverImage && (
+								<Image
+									src={post.data.coverImage}
+									alt={post.data.title}
+									class="aspect-h-1 aspect-w-2 m-auto mb-4 rounded-md"
+								/>
+							)}
+						</a>
+						<div class="p-5">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+								<a
+									href={
+										import.meta.env.BASE_URL +
+										'blog/' +
+										post.data.categories.map((category) => category.id) +
+										'/' +
+										slugify(post.slug)
+									}
+								>
+									{post.data.title}
+								</a>
+							</h3>
+							<span class="text-gray-500 dark:text-gray-400">CEO & Web Developer</span>
+							<p class="mb-4 mt-3 font-light text-gray-500 dark:text-gray-400">
+								{post.data.description}
+							</p>
+							<div
+								class="ya-share2"
+								data-curtain
+								data-limit="3"
+								data-services="vkontakte,telegram,twitter"
+								data-url={
+									import.meta.env.BASE_URL +
+									'blog/' +
+									post.data.categories.map((category) => category.id) +
+									'/' +
+									slugify(post.slug)
+								}
+								data-title={post.data.title}
+								data-description={post.data.description}
+								data-image={post.data.coverImage}
+							/>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<script src="https://yastatic.net/share2/share.js" defer></script>

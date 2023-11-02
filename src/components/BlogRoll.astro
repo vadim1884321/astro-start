@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from '@/components/BlogCard.astro';
+
+export interface Props {
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="col-span-12 lg:col-span-8">
+	<h1
+		class="mb-8 text-2xl font-bold text-gray-800 dark:text-gray-200 sm:text-3xl lg:text-4xl"
+		aria-label="Примеры наших работ"
+	>
+		Все статьи:
+	</h1>
+	<div class="flex flex-col gap-y-5">
+		{posts.map((post) => <BlogCard post={post} />)}
+	</div>
+</section>

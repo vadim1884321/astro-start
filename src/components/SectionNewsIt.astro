@@ -1,0 +1,225 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import slugify from '@sindresorhus/slugify';
+import { SiteMetadata } from '@/config';
+import { Sprite } from 'astro-icon';
+import { formatDate } from '@/utils';
+
+export interface Props {
+	posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+const articles = posts
+	.filter((post) => post.data.categories!.map((category) => category.id).includes('electronics'))
+	.slice(0, 6);
+---
+
+<section class="p-3 md:p-10">
+	<h2 class="sr-only">Новости IT</h2>
+	<div class="container grid grid-cols-6 gap-3 md:gap-10">
+		{
+			articles.map((post) => (
+				<article class="col-span-6 grid md:col-span-3 lg:col-span-2">
+					<div class="h-full overflow-hidden rounded-lg border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800">
+						<>
+							<a
+								href={
+									import.meta.env.BASE_URL +
+									'blog/' +
+									post.data.categories.map((category) => category.id) +
+									'/' +
+									slugify(post.slug)
+								}
+							>
+								{post.data.coverImage && (
+									<Picture
+										src={post.data.coverImage}
+										formats={['avif', 'webp']}
+										widths={[600, 800, 1200]}
+										sizes="100vw"
+										alt={post.data.title}
+										class="relative h-64 w-full overflow-hidden rounded-t-lg bg-purple-100 object-cover object-center group-hover:opacity-75 dark:bg-purple-800"
+									/>
+								)}
+								<p class="sr-only">{post.data.title}</p>
+							</a>
+							<div class="p-6">
+								<a
+									href={
+										import.meta.env.BASE_URL +
+										'blog/' +
+										post.data.categories.map((category) => category.id) +
+										'/' +
+										slugify(post.slug)
+									}
+								>
+									<h1 class="text-xl font-bold text-purple-600 hover:text-pink-600 dark:text-purple-300 dark:hover:text-pink-300">
+										{post.data.title}
+									</h1>
+								</a>
+								<div class="flex flex-wrap items-center py-2">
+									<span class="mr-3 inline-flex items-center border-r-2 border-purple-200 py-1 pr-3 text-xs leading-none text-gray-500 dark:border-purple-600 dark:text-gray-400">
+										<Sprite
+											name="clock"
+											size={16}
+											aria-hidden="true"
+											class="mr-1 fill-current"
+											title="Время на прочтение"
+										/>
+										2 мин
+									</span>
+									<>
+										<span class="mr-3 inline-flex items-center border-r-2 border-purple-200 py-1 pr-3 text-xs leading-none text-gray-500 dark:border-purple-600 dark:text-gray-400">
+											<Sprite
+												name="calendar"
+												size={16}
+												aria-hidden="true"
+												class="mr-1 fill-current"
+												title="Дата публикации"
+											/>
+											{formatDate(post.data.publishDate)}
+										</span>
+										<span class="inline-flex items-center text-xs leading-none text-gray-500 dark:text-gray-400">
+											<Sprite
+												name="user-circle"
+												size={16}
+												aria-hidden="true"
+												class="mr-1 fill-current"
+												title="Автор"
+											/>
+											Администратор
+										</span>
+									</>
+								</div>
+								<p class="text-sm text-gray-600 dark:text-gray-300">{post.data.description}</p>
+								<>
+									<div class="flex flex-wrap items-center py-2">
+										<span class="mr-3 inline-flex items-center border-r-2 border-purple-200 py-1 pr-3 text-xs leading-none text-gray-500 dark:border-purple-600 dark:text-gray-400">
+											<Sprite
+												name="chat"
+												size={16}
+												aria-hidden="true"
+												class="mr-1 fill-current"
+												title="Комментарий"
+											/>
+											0
+										</span>
+										<span class="inline-flex items-center py-1 pr-3 text-xs leading-none text-gray-500 dark:text-gray-400">
+											<Sprite
+												name="share"
+												size={16}
+												aria-hidden="true"
+												class="mr-1 fill-current"
+												title="Поделиться"
+											/>
+											<div
+												class="ya-share2 flex"
+												data-bare
+												data-curtain
+												data-size="s"
+												data-services="vkontakte,telegram,twitter"
+												data-lang={SiteMetadata.language}
+												data-url={
+													import.meta.env.BASE_URL +
+													'blog/' +
+													post.data.categories.map((category) => category.id) +
+													'/' +
+													slugify(post.slug)
+												}
+											/>
+										</span>
+									</div>
+									<div class="mt-2 flex flex-row flex-wrap items-start gap-4 lg:gap-2">
+										<a
+											href="/hello-astro/tag/help/"
+											class="inline-block rounded bg-pink-100 px-2 py-2 text-xs font-semibold text-purple-900 hover:bg-purple-300 hover:text-black lg:py-1"
+										>
+											#help
+										</a>
+										<>
+											<a
+												href="/hello-astro/tag/astro/"
+												class="inline-block rounded bg-pink-100 px-2 py-2 text-xs font-semibold text-purple-900 hover:bg-purple-300 hover:text-black lg:py-1"
+											>
+												#astro
+											</a>
+											<a
+												href="/hello-astro/tag/starter/"
+												class="inline-block rounded bg-pink-100 px-2 py-2 text-xs font-semibold text-purple-900 hover:bg-purple-300 hover:text-black lg:py-1"
+											>
+												#starter
+											</a>
+										</>
+									</div>
+								</>
+							</div>
+						</>
+					</div>
+				</article>
+			))
+		}
+
+		<article
+			class="col-span-6 grid overflow-hidden rounded-lg shadow transition hover:shadow-lg md:col-span-3 lg:col-span-2"
+		>
+			<img
+				alt="Office"
+				src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+				class="h-56 w-full object-cover"
+			/>
+
+			<div class="bg-white p-4 sm:p-6">
+				<time datetime="2022-10-10" class="block text-xs text-gray-500"> 10th Oct 2022</time>
+
+				<a href="/hello-astro/tag/starter/">
+					<h3 class="mt-0.5 text-lg text-gray-900">
+						How to position your furniture for positivity
+					</h3>
+				</a>
+
+				<p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+					pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis
+					quidem, mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius
+					atque dignissimos. Molestias explicabo corporis voluptatem?
+				</p>
+			</div>
+		</article>
+	</div>
+</section>
+
+<script src="https://yastatic.net/share2/share.js" async defer></script>
+
+<style lang="scss" is:global>
+	.ya-share2 {
+		&__list {
+			display: flex !important;
+			align-items: center;
+			margin: 0;
+			padding-left: 0;
+			list-style-type: none;
+		}
+
+		&__item {
+			&:not(:last-child) {
+				margin-right: 5px;
+			}
+		}
+
+		&__link {
+			color: var(--color-white);
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		&__title {
+			font-size: 12px;
+			font-family: var(--font-default);
+		}
+	}
+</style>

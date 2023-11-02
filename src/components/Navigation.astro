@@ -1,0 +1,33 @@
+---
+import { NavigationLinks } from '@/config';
+import { Sprite } from 'astro-icon';
+---
+
+<button type="button" class="order-2 col-span-2 h-[60px] text-gray-300 lg:hidden">
+	<Sprite name="fa:bars" size={20} aria-hidden="true" />
+</button>
+
+<nav class="order-4 col-span-6 w-full text-center lg:order-2 lg:col-span-2 lg:w-auto">
+	<ul class="flex flex-col md:flex-row">
+		{
+			NavigationLinks.map((item) => (
+				<li>
+					<a
+						href={import.meta.env.BASE_URL + item.href}
+						class={
+							(item.href.length > 0 && Astro.url.toString().includes(item.href)
+								? 'bg-gray-700 text-white'
+								: ' text-gray-300') +
+							' block h-full whitespace-nowrap px-4 font-medium uppercase leading-[60px] transition-colors hover:bg-gray-700 hover:text-white'
+						}
+						aria-current={
+							item.href.length > 0 && Astro.url.toString().includes(item.href) ? 'page' : undefined
+						}
+					>
+						{item.name}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>

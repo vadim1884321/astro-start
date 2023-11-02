@@ -1,0 +1,115 @@
+---
+import { Picture } from 'astro:assets';
+import type { PaginateFunction, Page } from 'astro';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { SiteMetadata, PAGE_SIZE } from '@/config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatBlogPosts } from '@/utils';
+import slugify from '@sindresorhus/slugify';
+import Paginatiion from '@/components/Paginatiion.astro';
+
+interface Props {
+	page: Page<CollectionEntry<'blog'>>;
+}
+
+const { page } = Astro.props;
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+	const categories = await getCollection('category');
+	const allPosts = await getCollection('blog');
+	const posts = formatBlogPosts(allPosts);
+
+	return categories.flatMap((category) => {
+		return paginate(
+			posts.filter(
+				(post) =>
+					category && post.data.categories.map((category) => category.id).includes(category.id)
+			),
+			{
+				params: { category: category.id },
+				pageSize: PAGE_SIZE,
+			}
+		);
+	});
+}
+
+const { category } = Astro.params;
+const detail = await getEntry('category', category!);
+---
+
+<BaseLayout
+	title={SiteMetadata.title + ' | ' + detail!.data.title}
+	description={detail!.data.description}
+>
+	<main class="">
+		<header class="grid grid-cols-12">
+			<div class="col-span-full row-span-full">
+				{
+					detail!.data.coverImage && (
+						<Picture
+							src={detail!.data.coverImage}
+							formats={['avif', 'webp']}
+							widths={[600, 800, 1200]}
+							sizes="100vw"
+							alt={detail!.data.title}
+							loading="eager"
+							class="h-[35vh] min-h-[35vh] w-full object-cover"
+						/>
+					)
+				}
+			</div>
+			<div class="container col-span-full row-span-full">
+				<h1
+					class="mb-8 text-2xl font-bold text-gray-800 dark:text-gray-200 sm:text-3xl lg:text-4xl"
+					aria-label="Примеры наших работ"
+				>
+					{detail!.data.title}
+				</h1>
+			</div>
+
+			<div class="flex flex-col gap-y-5">
+				{
+					page.data.map((post) => {
+						return (
+							<article class="">
+								<a
+									href={
+										import.meta.env.BASE_URL +
+										'blog/' +
+										post.data.categories.map((category) => category.id) +
+										'/' +
+										slugify(post.slug)
+									}
+									class="grid grid-cols-2 items-center gap-5 rounded-lg border border-gray-200 bg-white shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row"
+								>
+									<div class="">
+										{post.data.coverImage && (
+											<Picture
+												src={post.data.coverImage}
+												alt={post.data.title}
+												class="col-span-1 aspect-9/5 rounded-t-lg object-cover md:h-auto md:rounded-none md:rounded-l-lg"
+											/>
+										)}
+									</div>
+
+									<div class="col-span-1 flex flex-col justify-between p-4 leading-normal">
+										<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+											{post.data.title}
+										</h5>
+										<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+											{post.data.description}
+										</p>
+									</div>
+								</a>
+							</article>
+						);
+					})
+				}
+			</div>
+		</header>
+		<aside class="col-span-12 lg:col-span-4"></aside>
+		<nav class="order-2 col-span-12 lg:order-3">
+			<Paginatiion page={page} />
+		</nav>
+	</main>
+</BaseLayout>

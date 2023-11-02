@@ -1,0 +1,18 @@
+---
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { formatBlogPosts } from '@/utils';
+const categories = await getCollection('category');
+const detail = await getEntry('category', categories!);
+const allPosts = await getCollection('blog');
+const posts = formatBlogPosts(allPosts).filter((post) => post.data.categories);
+---
+
+<ul>
+	{
+		posts.map((post) => (
+			<li>
+				<a href="">{post.data.title}</a>
+			</li>
+		))
+	}
+</ul>

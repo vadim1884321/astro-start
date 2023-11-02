@@ -1,0 +1,25 @@
+---
+import { SiteMetadata } from '@/config';
+import slugify from '@sindresorhus/slugify';
+
+const { post } = Astro.props;
+---
+
+<div
+	class="ya-share2"
+	data-bare
+	data-curtain
+	data-size="s"
+	data-services="vkontakte,telegram,twitter"
+	data-lang={SiteMetadata.language}
+	data-title={post.data.title}
+	data-description={post.data.description}
+	data-image={post.data.coverImage}
+	data-url={import.meta.env.BASE_URL +
+		'blog/' +
+		post.data.categories.map((category) => category.id) +
+		'/' +
+		slugify(post.slug)}
+>
+</div>
+<script src="https://yastatic.net/share2/share.js" async defer></script>
