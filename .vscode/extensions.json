@@ -5,6 +5,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "unifiedjs.vscode-mdx",
+    "DavidAnson.vscode-markdownlint",
     "EditorConfig.EditorConfig",
     "stylelint.vscode-stylelint"
   ],

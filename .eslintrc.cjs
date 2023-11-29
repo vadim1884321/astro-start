@@ -13,9 +13,7 @@ module.exports = {
   overrides: [
     {
       files: ['*.js'],
-      rules: {
-        'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
-      },
+      rules: {},
     },
     {
       files: ['*.astro'],
@@ -25,7 +23,6 @@ module.exports = {
         extraFileExtensions: ['.astro'],
       },
       rules: {
-        'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
         'astro/jsx-a11y/no-redundant-roles': [
           'error',
           {
@@ -38,13 +35,7 @@ module.exports = {
       files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       extends: ['plugin:@typescript-eslint/recommended'],
-      rules: {
-        '@typescript-eslint/no-unused-vars': [
-          'error',
-          { argsIgnorePattern: '^_', destructuredArrayIgnorePattern: '^_' },
-        ],
-        '@typescript-eslint/no-non-null-assertion': 'off',
-      },
+      rules: {},
     },
     {
       files: ['**/*.astro/*.js', '*.astro/*.js'],
