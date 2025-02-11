@@ -10,11 +10,22 @@ export default {
 	plugins: ['stylelint-scss', 'stylelint-order'],
 	rules: {
 		'at-rule-no-unknown': null,
-		'value-keyword-case': ['lower', { ignoreFunctions: ['theme'] }],
 		'scss/at-rule-no-unknown': [
 			true,
 			{
-				ignoreAtRules: ['tailwind', 'apply', 'variants', 'responsive', 'screen'],
+				ignoreAtRules: [
+					'tailwind',
+					'theme',
+					'source',
+					'utility',
+					'variant',
+					'custom-variant',
+					'apply',
+					'variants',
+					'reference',
+					'config',
+					'plugin',
+				],
 			},
 		],
 	},
