@@ -1,9 +1,22 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".vercel",
+    ".netlify",
+    "public"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "~/*": [
+        "./src/*"
+      ]
     }
-  }
+  },
 }
