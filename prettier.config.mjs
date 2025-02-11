@@ -4,12 +4,12 @@ export default {
 	semi: true,
 	singleQuote: true,
 	tabWidth: 2,
-	trailingComma: 'es5',
+	trailingComma: 'all',
 	useTabs: true,
 	plugins: ['prettier-plugin-astro', 'prettier-plugin-tailwindcss'],
 	overrides: [
 		{
-			files: ['.*', '*.json', '*.md', '*.toml', '*.yml'],
+			files: ['*.md', '*.toml', '*.yml', '*.yaml'],
 			options: {
 				useTabs: false,
 			},
