@@ -2,16 +2,23 @@ import { defineConfig } from 'astro/config';
 import { SiteMetadata } from './src/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
-import tailwind from '@astrojs/tailwind';
-import critters from 'astro-critters';
-import compress from 'astro-compress';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
 	site: SiteMetadata.website,
+	trailingSlash: 'never',
 	prefetch: true,
-	integrations: [mdx(), tailwind(), sitemap(), critters(), compress({ Image: false, SVG: false })],
 	vite: {
-		plugins: [],
+		plugins: [tailwindcss()],
 	},
+	integrations: [
+		mdx(),
+		sitemap(),
+		(await import('@playform/inline')).default({}),
+		(await import('@playform/compress')).default({
+			Image: false,
+			SVG: false,
+		}),
+	],
 });
