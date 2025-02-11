@@ -10,13 +10,32 @@
   "files.trimTrailingWhitespace": true,
   "[markdown]": {
     "files.trimTrailingWhitespace": false,
-    "files.autoSave": "afterDelay"
+    "files.autoSave": "afterDelay",
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
   "markdownlint.config": {
     "default": true
   },
-  "css.customData": [".vscode/tailwindcss.json"],
-  "eslint.validate": ["javascript", "javascriptreact", "astro", "typescript", "typescriptreact"],
-  "stylelint.validate": ["css", "scss", "html", "vue", "svelte", "astro"],
-  "stylelint.packageManager": "pnpm"
+  "css.customData": [
+    ".vscode/tailwindcss.json"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "astro",
+    "typescript",
+    "typescriptreact"
+  ],
+  "stylelint.validate": [
+    "css",
+    "scss",
+    "html",
+    "vue",
+    "svelte",
+    "astro"
+  ],
+  "stylelint.packageManager": "pnpm",
+  "[astro]": {
+    "editor.defaultFormatter": "astro-build.astro-vscode"
+  }
 }
