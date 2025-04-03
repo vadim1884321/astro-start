@@ -1,7 +1,7 @@
 export const SiteMetadata = {
 	title: 'Astro Start Project',
 	description: 'Astro Start Project description',
-	website: 'https://example.com/',
+	website: 'https://personally-fresh-ribbonfish.cloudpub.ru/',
 	author: {
 		name: 'Администратор',
 		telegram: '@vadim1884321',
@@ -9,7 +9,8 @@ export const SiteMetadata = {
 		email: 'vadim1884321@gmail.com',
 		summary: 'webdev',
 	},
-	themeColor: '#1f2937',
+	themeColorLight: '#1f2937',
+	themeColorDark: '#1f2937',
 	ogImage: '/astro.png',
 	language: 'ru',
 	locale: 'ru-RU',
