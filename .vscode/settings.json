@@ -19,6 +19,11 @@
   "css.customData": [
     ".vscode/tailwindcss.json"
   ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "class:list"
+  ],
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -35,6 +40,12 @@
     "astro"
   ],
   "stylelint.packageManager": "pnpm",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
   "[astro]": {
     "editor.defaultFormatter": "astro-build.astro-vscode"
   }
