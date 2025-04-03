@@ -12,5 +12,12 @@ trim_trailing_whitespace = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{md,json,toml,yml,yaml}]
+[*.env]
+end_of_line = lf
+trim_trailing_whitespace = false
+
+[*.{json,toml,yml,yaml,md,ini,conf,gitignore,editorconfig}]
 indent_style = space
+
+[*.{png,jpg,jpeg,gif,webp,avif,svg,ico,woff,woff2,eot,ttf}]
+charset = unset
