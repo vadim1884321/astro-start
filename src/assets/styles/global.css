@@ -5,6 +5,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+	--font-inter: 'Inter Variable', var(--font-serif);
+}
+
 @layer base {
 	button:not(:disabled),
 	[role='button']:not(:disabled) {
@@ -27,10 +31,8 @@
 	padding-inline: 2rem;
 }
 
-:root {
-	/* custom variables */
-}
+/* custom variables */
+/* :root {} */
 
-.dark {
-	/* custom variables for dark theme */
-}
+/* custom variables for dark theme */
+/* .dark {} */
